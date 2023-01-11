@@ -3,14 +3,14 @@ function zior_coupon_create_posttype() {
 	$coupons = array(
 		'labels' => array(
 			'name'          => __( 'Coupons' ),
-			'singular_name' => __( 'Coupon' )
+			'singular_name' => __( 'Coupon' ),
 		),
 		'rewrite' => array(
-			'slug' => 'zr-coupons'
+			'slug' => 'zr-coupons',
 		),
 		'supports' => array(
 			'title',
-			'editor'
+			'editor',
 		),
 		'public'       => true,
 		'has_archive'  => true,
