@@ -1,1 +1,1 @@
-# ZIOR Blocks Coupon Reveal
+# ZIOR Coupon Reveal
