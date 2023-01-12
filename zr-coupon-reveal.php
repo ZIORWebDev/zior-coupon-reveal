@@ -58,7 +58,7 @@ class ZIOR_Coupon_Reveal {
 
 	public function includes() {
 		// Include ACF if not installed
-		if( ! class_exists('ACF') ) {
+		if ( ! class_exists('ACF') ) {
 			require_once ZR_COUPON_PLUGIN_DIR . 'includes/acf/acf-loader.php';
 		}
 
