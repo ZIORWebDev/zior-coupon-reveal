@@ -12,7 +12,65 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_63c21b02e855b",
+            "label": "Featured?",
+            "name": "is_featured",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_63b92ae335c9c",
+            "label": "Coupon Valid Until",
+            "name": "coupon_valid_until",
+            "aria-label": "",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "F j, Y",
+            "return_format": "F j, Y",
+            "first_day": 1
+        },
+        {
+            "key": "field_63b92b1e35c9d",
+            "label": "Coupon Discount",
+            "name": "coupon_discount",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -38,44 +96,6 @@
             },
             "default_value": "",
             "placeholder": ""
-        },
-        {
-            "key": "field_63b92ae335c9c",
-            "label": "Coupon Valid Until",
-            "name": "coupon_valid_until",
-            "aria-label": "",
-            "type": "date_picker",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "display_format": "F j, Y",
-            "return_format": "F j, Y",
-            "first_day": 1
-        },
-        {
-            "key": "field_63b92b1e35c9d",
-            "label": "Coupon Discount",
-            "name": "coupon_discount",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
         }
     ],
     "location": [
@@ -83,7 +103,7 @@
             {
                 "param": "post_type",
                 "operator": "==",
-                "value": "zr-coupons"
+                "value": "coupons"
             }
         ]
     ],

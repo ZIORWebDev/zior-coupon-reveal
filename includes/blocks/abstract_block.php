@@ -25,7 +25,7 @@ abstract class Abstract_Block {
 	public function register() {
 		add_filter( 'zior_blocks', function ( $blocks ) {
 			$blocks[ $this->name ] = array(
-				'labels'     => $this->get_labels(),	
+				'labels'     => $this->get_labels(),
 				'attributes' => $this->get_attributes(),
 			);
 			return $blocks;

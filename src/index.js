@@ -2,6 +2,5 @@ const { __ } = wp.i18n;
 /**
  * Import blocks.
  */
-import "./extensions/acf-toolbar/index.js";
-import "./blocks/acf-button/index.js";
-import "./style.scss";
+import "./blocks/coupons/index.js";
+import "./blocks/coupon-featured-image/index.js";

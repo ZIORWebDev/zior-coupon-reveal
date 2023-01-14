@@ -62,18 +62,19 @@ class ZIOR_Coupon_Reveal {
 			require_once ZR_COUPON_PLUGIN_DIR . 'includes/acf/acf-loader.php';
 		}
 
-		//require_once ZR_COUPON_PLUGIN_DIR . 'includes/blocks/blocks.php';
 		//require_once ZR_COUPON_PLUGIN_DIR . 'includes/shortcodes/shortcodes.php';
 		//require_once ZR_COUPON_PLUGIN_DIR . 'includes/routes.php';
 
+		require_once ZR_COUPON_PLUGIN_DIR . 'includes/blocks/blocks.php';
+		require_once ZR_COUPON_PLUGIN_DIR . 'includes/actions.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/filters.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/cpt/coupons.php';
 	}
 
 	public function admin_init() {
-		//$this->loader = new ZIOR_Coupon_Reveal_Loader();
-		//$this->loader->init();
-		//add_action( 'enqueue_block_editor_assets', [ $this->loader, 'enqueue_scripts' ], 1 );
+		$this->loader = new ZIOR_Coupon_Blocks_Loader();
+		$this->loader->init();
+		add_action( 'enqueue_block_editor_assets', [ $this->loader, 'enqueue_scripts' ], 1 );
 	}
 
 	/**

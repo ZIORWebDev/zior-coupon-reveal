@@ -10,24 +10,25 @@
 	},
 	"license": "GPL 3.0",
 	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/ziorweb-dev/zior-elementor-addon.git"
+		"type": "git",
+		"url": "https://github.com/ziorweb-dev/zior-elementor-addon.git"
 	},
 	"scripts": {
 		"build": "wp-scripts build",
 		"start": "wp-scripts start"
 	},
 	"dependencies": {
+		"@wordpress/icons": "^9.15.0",
 		"@wordpress/scripts": "^24.6.0",
 		"axios": "^1.2.0",
 		"classnames": "^2.3.2",
-		"lodash": "^4.17.15"
+		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
-		"grunt-cli": "^1.4.3",
-		"grunt-contrib-clean": "^2.0.1",
 		"css-loader": "^6.7.2",
 		"file-loader": "^6.2.0",
+		"grunt-cli": "^1.4.3",
+		"grunt-contrib-clean": "^2.0.1",
 		"mini-css-extract-plugin": "^2.7.1",
 		"sass": "^1.56.1",
 		"sass-loader": "^13.2.0",

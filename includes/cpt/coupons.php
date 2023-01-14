@@ -5,18 +5,16 @@ function zior_coupon_create_posttype() {
 			'name'          => __( 'Coupons' ),
 			'singular_name' => __( 'Coupon' ),
 		),
-		'rewrite' => array(
-			'slug' => 'zr-coupons',
-		),
 		'supports' => array(
 			'title',
 			'editor',
+			'thumbnail',
 		),
 		'public'       => true,
 		'has_archive'  => true,
 		'show_in_rest' => true,
 	);
-	register_post_type( 'zr-coupons', $coupons );
+	register_post_type( 'coupons', $coupons );
 
 	$stores = array(
 		'hierarchical' => true,
@@ -40,8 +38,9 @@ function zior_coupon_create_posttype() {
 		'show_in_rest'      => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'coupon-stores' ),
 	);
-	register_taxonomy( 'stores', array( 'zr-coupons' ), $stores );
+	register_taxonomy( 'coupon-stores', array( 'coupons' ), $stores );
 
 	$categories = array(
 		'hierarchical' => true,
@@ -66,7 +65,7 @@ function zior_coupon_create_posttype() {
 		'show_admin_column' => true,
 		'query_var'         => true,
 	);
-	register_taxonomy( 'coupon_categories', array( 'zr-coupons' ), $categories );
+	register_taxonomy( 'coupon-categories', array( 'coupons' ), $categories );
 }
 
 add_action( 'init', 'zior_coupon_create_posttype' );
