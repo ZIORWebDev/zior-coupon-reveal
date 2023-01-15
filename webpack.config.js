@@ -15,11 +15,11 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "build/"),
-        filename: "main.min.js"
+        filename: "[name].min.js"
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'main.min.css',
+            filename: "[name].min.css"
         }),
     ]
 }

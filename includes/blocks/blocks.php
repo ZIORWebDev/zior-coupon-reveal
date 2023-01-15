@@ -10,21 +10,29 @@ class ZIOR_Coupon_Blocks_Loader {
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
-
+		
+		add_action( 'init', [ $this, 'register' ] );
 		add_filter( 'render_block_data', [ $this, 'pre_render_block' ], 10, 3 );
 	}
 
-	public function enqueue_scripts() {
-		wp_enqueue_style( 'zior-coupons', ZR_COUPON_PLUGIN_URL . 'build/main.min.css', array(), ZR_COUPON_VERSION );
-		wp_enqueue_script( 'zior-coupons', ZR_COUPON_PLUGIN_URL . 'build/main.min.js', [
-			'wp-blocks',
-			'wp-i18n',
-			'wp-element',
-			'wp-components',
-			'wp-editor',
-			'wp-hooks',
-			'wp-util'
-		], ZR_COUPON_VERSION, true );
+	/**
+	 * Register server side blocks for the editor.
+	 */
+	public function register() {
+		spl_autoload_register( function ( $class ) {
+			$allowed_class = [
+				'abstract_block',
+				'style_attributes_utils',
+				'zior_coupon_categories',
+			];
+		
+			if ( ! in_array( strtolower( $class ), $allowed_class ) ) {
+				return;
+			}
+			include strtolower( $class ) . '.php';
+		});
+
+		( new Zior_Coupon_Categories() )->initialize();
 	}
 
 	public function has_managefeatured_enabled( $parsed_block ) {
@@ -39,11 +47,9 @@ class ZIOR_Coupon_Blocks_Loader {
 	public function pre_render_block_featured_image( $thumbnail_id, $coupon ) {
 		if ( ! $thumbnail_id ) {
 			// Get thumbnail ID from store taxonomy
-			//echo '$coupon: ' . $coupon->ID;
 			$terms = get_the_terms( $coupon->ID, 'coupon-stores' );
-			//print_r( $coupon );
 			if ( $terms ) {
-				$thumbnail_id = get_field( 'store_image', $terms[0]->taxonomy . '_' . $terms[0]->term_id );
+				$thumbnail_id = get_field( 'store_logo', $terms[0]->taxonomy . '_' . $terms[0]->term_id );
 			}
 		}
 
@@ -58,3 +64,5 @@ class ZIOR_Coupon_Blocks_Loader {
 		return $parsed_block;
 	}
 }
+
+(new ZIOR_Coupon_Blocks_Loader)->init();

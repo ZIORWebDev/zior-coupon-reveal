@@ -53,7 +53,6 @@ class ZIOR_Coupon_Reveal {
 	public function init() {
 		$this->setup_constants();
 		$this->includes();
-		$this->admin_init();
 	}
 
 	public function includes() {
@@ -69,12 +68,7 @@ class ZIOR_Coupon_Reveal {
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/actions.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/filters.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/cpt/coupons.php';
-	}
-
-	public function admin_init() {
-		$this->loader = new ZIOR_Coupon_Blocks_Loader();
-		$this->loader->init();
-		add_action( 'enqueue_block_editor_assets', [ $this->loader, 'enqueue_scripts' ], 1 );
+		require_once ZR_COUPON_PLUGIN_DIR . 'includes/templates.php';
 	}
 
 	/**
