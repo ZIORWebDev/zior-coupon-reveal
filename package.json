@@ -8,7 +8,7 @@
 		"name": "ZIORWeb.Dev",
 		"url": "https://ziorweb.dev"
 	},
-	"license": "GPL 3.0",
+	"license": "UNLICENSED",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ziorweb-dev/zior-elementor-addon.git"
@@ -26,14 +26,12 @@
 		"prop-types": "^15.8.1"
 	},
 	"devDependencies": {
-		"css-loader": "^6.7.2",
 		"file-loader": "^6.2.0",
 		"grunt-cli": "^1.4.3",
 		"grunt-contrib-clean": "^2.0.1",
 		"mini-css-extract-plugin": "^2.7.1",
 		"sass": "^1.56.1",
 		"sass-loader": "^13.2.0",
-		"style-loader": "^3.3.1",
 		"webpack": "^5.75.0",
 		"webpack-cli": "^5.0.0"
 	}

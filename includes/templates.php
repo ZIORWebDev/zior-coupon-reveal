@@ -7,6 +7,13 @@ function zior_coupon_archive_templates( $template ) {
 		}
 	}
 
+	if ( is_tax( 'coupon-categories' )  ) {
+		$template = locate_template( array( 'taxonomy-coupon-categories.php' ) );
+		if ( ! $template ) {
+			$template = ZR_COUPON_PLUGIN_DIR . 'templates/taxonomy-coupon-categories.php';
+		}
+	}
+
 	return $template;
 }
 add_filter( 'template_include', 'zior_coupon_archive_templates', 99 );

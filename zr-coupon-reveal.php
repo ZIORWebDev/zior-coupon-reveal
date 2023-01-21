@@ -61,14 +61,12 @@ class ZIOR_Coupon_Reveal {
 			require_once ZR_COUPON_PLUGIN_DIR . 'includes/acf/acf-loader.php';
 		}
 
-		//require_once ZR_COUPON_PLUGIN_DIR . 'includes/shortcodes/shortcodes.php';
-		//require_once ZR_COUPON_PLUGIN_DIR . 'includes/routes.php';
-
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/blocks/blocks.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/actions.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/filters.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/cpt/coupons.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/templates.php';
+		require_once ZR_COUPON_PLUGIN_DIR . 'includes/settings.php';
 	}
 
 	/**

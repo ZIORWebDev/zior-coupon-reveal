@@ -4,7 +4,8 @@ module.exports = function(grunt) {
         clean: {
             build: ['build'],
             release: ['release'],
-            acf: ['vendor/acf/lang']
+            acf: ['vendor/acf/lang'],
+            packgist: ['vendor/wpackagist-plugin']
         }
     });
 

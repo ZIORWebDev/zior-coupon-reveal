@@ -4,3 +4,4 @@ node_modules/
 .yarnclean
 build/
 *.lock
+*.lock
