@@ -89,8 +89,8 @@ function zior_coupon_create_posttype() {
 	$template_args = [
 		'label'               => esc_html__( 'Templates', 'zior-couponreveal' ),
 		'labels'              => $template_labels,
-		'public'              => true,
-		'publicly_queryable'  => true,
+		'public'              => false,
+		'publicly_queryable'  => false,
 		'show_ui'             => true,
 		'show_in_menu'        => 'edit.php?post_type=coupons',
 		'show_in_nav_menus'   => false,

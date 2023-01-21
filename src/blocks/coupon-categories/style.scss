@@ -1,4 +1,4 @@
-.wc-block-coupon-categories {
+.zior-block-coupon-categories {
 	margin-bottom: 1em;
 
 	&.is-dropdown {
@@ -10,10 +10,10 @@
 	}
 }
 
-.wc-block-coupon-categories-list--has-images {
+.zior-block-coupon-categories-list--has-images {
 	list-style: none outside;
 
-	.wc-block-coupon-categories-list-item {
+	.zior-block-coupon-categories-list-item {
 		margin: 4px 0 4px 60px;
 		list-style: none outside;
 		clear: both;
@@ -23,7 +23,7 @@
 		}
 	}
 
-	.wc-block-coupon-categories-list-item__image {
+	.zior-block-coupon-categories-list-item__image {
 		max-width: 50px;
 		display: inline-block;
 		position: relative;
@@ -45,15 +45,15 @@
 	}
 }
 
-.wc-block-coupon-categories-list-item-count::before {
+.zior-block-coupon-categories-list-item-count::before {
 	content: " (";
 }
 
-.wc-block-coupon-categories-list-item-count::after {
+.zior-block-coupon-categories-list-item-count::after {
 	content: ")";
 }
 
-.wp-block-zior-coupon-categories.is-loading .wc-block-coupon-categories__placeholder {
+.wp-block-zior-coupon-categories.is-loading .zior-block-coupon-categories__placeholder {
 	display: inline-block;
 	height: 1em;
 	width: 50%;
@@ -62,7 +62,7 @@
 	opacity: 0.2;
 }
 
-.wc-block-coupon-categories__button {
+.zior-block-coupon-categories__button {
 	display: flex;
 	align-items: center;
 	margin: 0;

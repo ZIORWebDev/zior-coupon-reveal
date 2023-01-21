@@ -11,13 +11,12 @@ import "./editor.scss";
 import metadata from "./block.json";
 import "./style.scss";
 import { Edit } from "./edit";
-
 registerBlockType(metadata, {
 	icon: {
 		src: (
 			<Icon
 				icon={ listView }
-				className="wc-block-editor-components-block-icon"
+				className="zior-block-editor-components-block-icon"
 			/>
 		),
 	},

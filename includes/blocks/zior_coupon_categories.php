@@ -2,7 +2,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-class Zior_Coupon_Categories extends Abstract_Block {
+class Zior_Coupon_Categories extends Zior_Abstract_Block {
 
 	protected $block_name = 'coupon-categories';
 
@@ -14,8 +14,6 @@ class Zior_Coupon_Categories extends Abstract_Block {
 	protected $defaults = array(
 		'hasCount'       => true,
 		'hasImage'       => false,
-		'hasEmpty'       => false,
-		'isDropdown'     => false,
 		'isHierarchical' => true,
 	);
 
@@ -32,8 +30,6 @@ class Zior_Coupon_Categories extends Abstract_Block {
 				'className'      => $this->get_schema_string(),
 				'hasCount'       => $this->get_schema_boolean( true ),
 				'hasImage'       => $this->get_schema_boolean( false ),
-				'hasEmpty'       => $this->get_schema_boolean( false ),
-				'isDropdown'     => $this->get_schema_boolean( false ),
 				'isHierarchical' => $this->get_schema_boolean( true ),
 				'textColor'      => $this->get_schema_string(),
 				'fontSize'       => $this->get_schema_string(),
@@ -82,7 +78,7 @@ class Zior_Coupon_Categories extends Abstract_Block {
 	}
 
 	/**
-	 * Render the Product Categories List block.
+	 * Render the Coupon Categories List block.
 	 *
 	 * @param array    $attributes Block attributes.
 	 * @param string   $content    Block content.
@@ -90,7 +86,7 @@ class Zior_Coupon_Categories extends Abstract_Block {
 	 * @return string Rendered block type output.
 	 */
 	public function render( $attributes, $content, $block ) {
-		$uid        = uniqid( 'product-categories-' );
+		$uid        = uniqid( 'coupon-categories-' );
 		$categories = $this->get_categories( $attributes );
 
 		if ( empty( $categories ) ) {
@@ -102,14 +98,9 @@ class Zior_Coupon_Categories extends Abstract_Block {
 			if ( strstr( $content, 'data-has-count="false"' ) ) {
 				$attributes['hasCount'] = false;
 			}
-			if ( strstr( $content, 'data-is-dropdown="true"' ) ) {
-				$attributes['isDropdown'] = true;
-			}
+
 			if ( strstr( $content, 'data-is-hierarchical="false"' ) ) {
 				$attributes['isHierarchical'] = false;
-			}
-			if ( strstr( $content, 'data-has-empty="true"' ) ) {
-				$attributes['hasEmpty'] = true;
 			}
 		}
 
@@ -121,8 +112,8 @@ class Zior_Coupon_Categories extends Abstract_Block {
 		$classes = $this->get_container_classes( $attributes ) . ' ' . $classes_and_styles['classes'];
 		$styles  = $classes_and_styles['styles'];
 
-		$output  = '<div class="wp-block-woocommerce-product-categories ' . esc_attr( $classes ) . '" style="' . esc_attr( $styles ) . '">';
-		$output .= ! empty( $attributes['isDropdown'] ) ? $this->renderDropdown( $categories, $attributes, $uid ) : $this->renderList( $categories, $attributes, $uid );
+		$output  = '<div class="wp-block-coupon-categories ' . esc_attr( $classes ) . '" style="' . esc_attr( $styles ) . '">';
+		$output .= $this->renderList( $categories, $attributes, $uid );
 		$output .= '</div>';
 
 		return $output;
@@ -136,7 +127,7 @@ class Zior_Coupon_Categories extends Abstract_Block {
 	 */
 	protected function get_container_classes( $attributes = array() ) {
 
-		$classes = array( 'wc-block-product-categories' );
+		$classes = array( 'zior-block-coupon-categories' );
 
 		if ( isset( $attributes['align'] ) ) {
 			$classes[] = "align{$attributes['align']}";
@@ -146,11 +137,7 @@ class Zior_Coupon_Categories extends Abstract_Block {
 			$classes[] = $attributes['className'];
 		}
 
-		if ( $attributes['isDropdown'] ) {
-			$classes[] = 'is-dropdown';
-		} else {
-			$classes[] = 'is-list';
-		}
+		$classes[] = 'is-list';
 
 		return implode( ' ', $classes );
 	}
@@ -164,9 +151,8 @@ class Zior_Coupon_Categories extends Abstract_Block {
 	protected function get_categories( $attributes ) {
 		$hierarchical = wc_string_to_bool( $attributes['isHierarchical'] );
 		$categories   = get_terms(
-			'product_cat',
 			[
-				'hide_empty'   => ! $attributes['hasEmpty'],
+				'taxonomy'     => 'coupon-categories',
 				'pad_counts'   => true,
 				'hierarchical' => true,
 			]
@@ -176,15 +162,13 @@ class Zior_Coupon_Categories extends Abstract_Block {
 			return [];
 		}
 
-		// This ensures that no categories with a product count of 0 is rendered.
-		if ( ! $attributes['hasEmpty'] ) {
-			$categories = array_filter(
-				$categories,
-				function( $category ) {
-					return 0 !== $category->count;
-				}
-			);
-		}
+		// This ensures that no categories with a coupon count of 0 is rendered.
+		$categories = array_filter(
+			$categories,
+			function( $category ) {
+				return 0 !== $category->count;
+			}
+		);
 
 		return $hierarchical ? $this->build_category_tree( $categories ) : $categories;
 	}
@@ -234,83 +218,6 @@ class Zior_Coupon_Categories extends Abstract_Block {
 	}
 
 	/**
-	 * Render the category list as a dropdown.
-	 *
-	 * @param array $categories List of terms.
-	 * @param array $attributes Block attributes. Default empty array.
-	 * @param int   $uid Unique ID for the rendered block, used for HTML IDs.
-	 * @return string Rendered output.
-	 */
-	protected function renderDropdown( $categories, $attributes, $uid ) {
-		$aria_label = empty( $attributes['hasCount'] ) ?
-			__( 'List of categories', 'woocommerce' ) :
-			__( 'List of categories with their product counts', 'woocommerce' );
-
-		$output = '
-			<div class="wc-block-product-categories__dropdown">
-				<label
-				class="screen-reader-text"
-					for="' . esc_attr( $uid ) . '-select"
-				>
-					' . esc_html__( 'Select a category', 'woocommerce' ) . '
-				</label>
-				<select aria-label="' . esc_attr( $aria_label ) . '" id="' . esc_attr( $uid ) . '-select">
-					<option value="false" hidden>
-						' . esc_html__( 'Select a category', 'woocommerce' ) . '
-					</option>
-					' . $this->renderDropdownOptions( $categories, $attributes, $uid ) . '
-				</select>
-			</div>
-			<button
-				type="button"
-				class="wc-block-product-categories__button"
-				aria-label="' . esc_html__( 'Go to category', 'woocommerce' ) . '"
-				onclick="const url = document.getElementById( \'' . esc_attr( $uid ) . '-select\' ).value; if ( \'false\' !== url ) document.location.href = url;"
-			>
-				<svg
-					aria-hidden="true"
-					role="img"
-					focusable="false"
-					class="dashicon dashicons-arrow-right-alt2"
-					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 20 20"
-				>
-					<path d="M6 15l5-5-5-5 1-2 7 7-7 7z" />
-				</svg>
-			</button>
-		';
-		return $output;
-	}
-
-	/**
-	 * Render dropdown options list.
-	 *
-	 * @param array $categories List of terms.
-	 * @param array $attributes Block attributes. Default empty array.
-	 * @param int   $uid Unique ID for the rendered block, used for HTML IDs.
-	 * @param int   $depth Current depth.
-	 * @return string Rendered output.
-	 */
-	protected function renderDropdownOptions( $categories, $attributes, $uid, $depth = 0 ) {
-		$output = '';
-
-		foreach ( $categories as $category ) {
-			$output .= '
-				<option value="' . esc_attr( get_term_link( $category->term_id, 'product_cat' ) ) . '">
-					' . str_repeat( '&minus;', $depth ) . '
-					' . esc_html( $category->name ) . '
-					' . $this->getCount( $category, $attributes ) . '
-				</option>
-				' . ( ! empty( $category->children ) ? $this->renderDropdownOptions( $category->children, $attributes, $uid, $depth + 1 ) : '' ) . '
-			';
-		}
-
-		return $output;
-	}
-
-	/**
 	 * Render the category list as a list.
 	 *
 	 * @param array $categories List of terms.
@@ -321,11 +228,11 @@ class Zior_Coupon_Categories extends Abstract_Block {
 	 */
 	protected function renderList( $categories, $attributes, $uid, $depth = 0 ) {
 		$classes = [
-			'wc-block-product-categories-list',
-			'wc-block-product-categories-list--depth-' . absint( $depth ),
+			'zior-block-coupon-categories-list',
+			'zior-block-coupon-categories-list--depth-' . absint( $depth ),
 		];
 		if ( ! empty( $attributes['hasImage'] ) ) {
-			$classes[] = 'wc-block-product-categories-list--has-images';
+			$classes[] = 'zior-block-coupon-categories-list--has-images';
 		}
 		$output = '<ul class="' . esc_attr( implode( ' ', $classes ) ) . '">' . $this->renderListItems( $categories, $attributes, $uid, $depth ) . '</ul>';
 
@@ -350,10 +257,10 @@ class Zior_Coupon_Categories extends Abstract_Block {
 
 		foreach ( $categories as $category ) {
 			$output .= '
-				<li class="wc-block-product-categories-list-item">
-					<a style="' . esc_attr( $link_color_style ) . '" href="' . esc_attr( get_term_link( $category->term_id, 'product_cat' ) ) . '">'
+				<li class="zior-block-coupon-categories-list-item">
+					<a style="' . esc_attr( $link_color_style ) . '" href="' . esc_attr( get_term_link( $category->term_id, 'coupon-categories' ) ) . '">'
 						. $this->get_image_html( $category, $attributes )
-						. '<span class="wc-block-product-categories-list-item__name">' . esc_html( $category->name ) . '</span>'
+						. '<span class="zior-block-coupon-categories-list-item__name">' . esc_html( $category->name ) . '</span>'
 					. '</a>'
 					. $this->getCount( $category, $attributes )
 					. ( ! empty( $category->children ) ? $this->renderList( $category->children, $attributes, $uid, $depth + 1 ) : '' ) . '
@@ -369,10 +276,10 @@ class Zior_Coupon_Categories extends Abstract_Block {
 	 *
 	 * @param \WP_Term $category Term object.
 	 * @param array    $attributes Block attributes. Default empty array.
-	 * @param string   $size Image size, defaults to 'woocommerce_thumbnail'.
+	 * @param string   $size Image size, defaults to 'thumbnail'.
 	 * @return string
 	 */
-	public function get_image_html( $category, $attributes, $size = 'woocommerce_thumbnail' ) {
+	public function get_image_html( $category, $attributes, $size = 'thumbnail' ) {
 		if ( empty( $attributes['hasImage'] ) ) {
 			return '';
 		}
@@ -380,10 +287,10 @@ class Zior_Coupon_Categories extends Abstract_Block {
 		$image_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
 
 		if ( ! $image_id ) {
-			return '<span class="wc-block-product-categories-list-item__image wc-block-product-categories-list-item__image--placeholder">' . wc_placeholder_img( 'woocommerce_thumbnail' ) . '</span>';
+			return '<span class="zior-block-coupon-categories-list-item__image zior-block-coupon-categories-list-item__image--placeholder">' . wc_placeholder_img( 'thumbnail' ) . '</span>';
 		}
 
-		return '<span class="wc-block-product-categories-list-item__image">' . wp_get_attachment_image( $image_id, 'woocommerce_thumbnail' ) . '</span>';
+		return '<span class="zior-block-coupon-categories-list-item__image">' . wp_get_attachment_image( $image_id, 'thumbnail' ) . '</span>';
 	}
 
 	/**

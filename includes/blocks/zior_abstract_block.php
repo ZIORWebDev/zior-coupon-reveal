@@ -4,7 +4,7 @@ use WP_Block;
 /**
  * Abstract_Block class.
  */
-abstract class Abstract_Block {
+abstract class Zior_Abstract_Block {
 
 	/**
 	 * Block namespace.
@@ -141,7 +141,7 @@ abstract class Abstract_Block {
 	 * @return string|null
 	 */
 	protected function get_block_type_editor_style() {
-		return 'wc-blocks-editor-style';
+		return 'zior-blocks-editor-style';
 	}
 
 	/**
@@ -151,7 +151,7 @@ abstract class Abstract_Block {
 	 * @return string|null
 	 */
 	protected function get_block_type_style() {
-		return 'wc-blocks-style';
+		return 'zior-blocks-style';
 	}
 
 	/**

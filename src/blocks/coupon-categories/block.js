@@ -3,7 +3,8 @@
  */
 const { __ } = wp.i18n;
 const { InspectorControls, useBlockProps } = wp.blockEditor;
-const { ServerSideRender } = wp.serverSideRender;
+const { serverSideRender: ServerSideRender } = wp;
+
 import PropTypes from "prop-types";
 import { Icon, listView } from "@wordpress/icons";
 const {
@@ -24,13 +25,13 @@ const EmptyPlaceholder = () => (
 		icon={ <Icon icon={ listView } /> }
 		label={ __(
 			"Coupons Categories List",
-			"zior-coupon-reveal"
+			"zior-couponreveal"
 		) }
-		className="wc-block-coupon-categories"
+		className="zior-block-coupon-categories"
 	>
 		{ __(
 			"This block displays the coupon categories for your store. To use it you first need to create a coupon and assign it to a category.",
-			"zior-coupon-reveal"
+			"zior-couponreveal"
 		) }
 	</Placeholder>
 );
@@ -45,7 +46,7 @@ const EmptyPlaceholder = () => (
  */
 const CouponCategoriesBlock = ( { attributes, setAttributes, name } ) => {
 	const getInspectorControls = () => {
-		const { hasCount, hasImage, hasEmpty, isDropdown, isHierarchical } =
+		const { hasCount, hasImage, isHierarchical } =
 			attributes;
 
 		return (
@@ -53,79 +54,50 @@ const CouponCategoriesBlock = ( { attributes, setAttributes, name } ) => {
 				<PanelBody
 					title={ __(
 						"List Settings",
-						"zior-coupon-reveal"
+						"zior-couponreveal"
 					) }
 					initialOpen
 				>
-					<ToggleGroupControl
-						label={ __(
-							"Display style",
-							"zior-coupon-reveal"
-						) }
-						value={ isDropdown ? "dropdown" : "list" }
-						onChange={ ( value ) =>
-							setAttributes( {
-								isDropdown: value === "dropdown",
-							} )
-						}
-					>
-						<ToggleGroupControlOption
-							value="list"
-							label={ __(
-								"List",
-								"zior-coupon-reveal"
-							) }
-						/>
-						<ToggleGroupControlOption
-							value="dropdown"
-							label={ __(
-								"Dropdown",
-								"zior-coupon-reveal"
-							) }
-						/>
-					</ToggleGroupControl>
 				</PanelBody>
 				<PanelBody
-					title={ __( "Content", "zior-coupon-reveal" ) }
+					title={ __( "Content", "zior-couponreveal" ) }
 					initialOpen
 				>
 					<ToggleControl
 						label={ __(
 							"Show coupon count",
-							"zior-coupon-reveal"
+							"zior-couponreveal"
 						) }
 						checked={ hasCount }
 						onChange={ () =>
 							setAttributes( { hasCount: ! hasCount } )
 						}
 					/>
-					{ ! isDropdown && (
-						<ToggleControl
-							label={ __(
-								"Show category images",
-								"zior-coupon-reveal"
-							) }
-							help={
-								hasImage
-									? __(
-											"Category images are visible.",
-											"zior-coupon-reveal"
-									  )
-									: __(
-											"Category images are hidden.",
-											"zior-coupon-reveal"
-									  )
-							}
-							checked={ hasImage }
-							onChange={ () =>
-								setAttributes( { hasImage: ! hasImage } )
-							}
-						/>
-					) }
+					<ToggleControl
+						label={ __(
+							"Show category images",
+							"zior-couponreveal"
+						) }
+						help={
+							hasImage
+								? __(
+										"Category images are visible.",
+										"zior-couponreveal"
+									)
+								: __(
+										"Category images are hidden.",
+										"zior-couponreveal"
+									)
+						}
+						checked={ hasImage }
+						onChange={ () =>
+							setAttributes( { hasImage: ! hasImage } )
+						}
+					/>
 					<ToggleControl
 						label={ __(
 							"Show hierarchy",
-							"zior-coupon-reveal"
+							"zior-couponreveal"
 						) }
 						checked={ isHierarchical }
 						onChange={ () =>
@@ -134,23 +106,13 @@ const CouponCategoriesBlock = ( { attributes, setAttributes, name } ) => {
 							} )
 						}
 					/>
-					<ToggleControl
-						label={ __(
-							"Show empty categories",
-							"zior-coupon-reveal"
-						) }
-						checked={ hasEmpty }
-						onChange={ () =>
-							setAttributes( { hasEmpty: ! hasEmpty } )
-						}
-					/>
 				</PanelBody>
 			</InspectorControls>
 		);
 	};
 
 	const blockProps = useBlockProps( {
-		className: "wc-block-coupon-categories",
+		className: "zior-block-coupon-categories",
 	} );
 
 	return (

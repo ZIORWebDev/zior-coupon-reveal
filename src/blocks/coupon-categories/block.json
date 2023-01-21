@@ -3,7 +3,7 @@
   "title": "Coupon Categories List",
   "category": "zior",
   "description": "Show all coupon categories as a list or dropdown.",
-  "keywords": [ "WooCommerce" ],
+  "keywords": [ "coupon" ],
   "supports": {
     "align": [ "wide", "full" ],
     "html": false,
@@ -25,14 +25,6 @@
       "default": true
     },
     "hasImage": {
-      "type": "boolean",
-      "default": false
-    },
-    "hasEmpty": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDropdown": {
       "type": "boolean",
       "default": false
     },

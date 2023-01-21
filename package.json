@@ -20,9 +20,10 @@
 	"dependencies": {
 		"@wordpress/icons": "^9.15.0",
 		"@wordpress/scripts": "^24.6.0",
+		"@wordpress/server-side-render": "^4.2.0",
 		"axios": "^1.2.0",
 		"classnames": "^2.3.2",
-		"lodash": "^4.17.21",
+		"grunt": "^1.5.3",
 		"prop-types": "^15.8.1"
 	},
 	"devDependencies": {

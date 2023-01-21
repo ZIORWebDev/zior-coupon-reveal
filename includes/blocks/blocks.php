@@ -21,7 +21,7 @@ class ZIOR_Coupon_Blocks_Loader {
 	public function register() {
 		spl_autoload_register( function ( $class ) {
 			$allowed_class = [
-				'abstract_block',
+				'zior_abstract_block',
 				'style_attributes_utils',
 				'zior_coupon_categories',
 			];
