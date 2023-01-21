@@ -26,10 +26,10 @@ const EmptyPlaceholder = () => (
 			"Coupons Categories List",
 			"zior-coupon-reveal"
 		) }
-		className="wc-block-product-categories"
+		className="wc-block-coupon-categories"
 	>
 		{ __(
-			"This block displays the product categories for your store. To use it you first need to create a product and assign it to a category.",
+			"This block displays the coupon categories for your store. To use it you first need to create a coupon and assign it to a category.",
 			"zior-coupon-reveal"
 		) }
 	</Placeholder>
@@ -91,7 +91,7 @@ const CouponCategoriesBlock = ( { attributes, setAttributes, name } ) => {
 				>
 					<ToggleControl
 						label={ __(
-							"Show product count",
+							"Show coupon count",
 							"zior-coupon-reveal"
 						) }
 						checked={ hasCount }
@@ -150,7 +150,7 @@ const CouponCategoriesBlock = ( { attributes, setAttributes, name } ) => {
 	};
 
 	const blockProps = useBlockProps( {
-		className: "wc-block-product-categories",
+		className: "wc-block-coupon-categories",
 	} );
 
 	return (
