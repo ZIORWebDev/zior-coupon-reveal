@@ -1,9 +1,9 @@
 <?php
-
+namespace ZIOR\CouponReveal\Blocks;
 /**
  * Style_Attributes_Utils class used for getting class and style from attributes.
  */
-class Style_Attributes_Utils {
+class StyleAttributesUtils {
 
 	/**
 	 * Get class and style for font-size from attributes.

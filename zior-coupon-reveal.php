@@ -1,4 +1,6 @@
 <?php
+namespace ZIOR;
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ERROR);
@@ -12,7 +14,7 @@ error_reporting(E_ERROR);
  * Author URI:  https://github.com/ZIORWebDev
  * License:     GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
- * Text Domain: zior-coupon-reveal
+ * Text Domain: zior-couponreveal
  * Requires at least: 4.9
  * Tested up to: 6.1
  * Requires PHP: 7.4
@@ -24,10 +26,11 @@ error_reporting(E_ERROR);
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-class ZIOR_Coupon_Reveal {
+
+class CouponReveal {
 
 	/**
-	 * @var ZIOR_Coupon_Reveal
+	 * @var CouponReveal
 	 */
 	protected static $instance;
 	protected $loader;
@@ -64,12 +67,10 @@ class ZIOR_Coupon_Reveal {
 			require_once ZR_COUPON_PLUGIN_DIR . 'includes/acf/acf-loader.php';
 		}
 
-		require_once ZR_COUPON_PLUGIN_DIR . 'includes/blocks/blocks.php';
+		require_once ZR_COUPON_PLUGIN_DIR . 'includes/classes/loader.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/actions.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/filters.php';
-		require_once ZR_COUPON_PLUGIN_DIR . 'includes/cpt/coupons.php';
 		require_once ZR_COUPON_PLUGIN_DIR . 'includes/templates.php';
-		require_once ZR_COUPON_PLUGIN_DIR . 'includes/settings.php';
 	}
 
 	/**
@@ -102,10 +103,10 @@ class ZIOR_Coupon_Reveal {
 /**
  * Start the blocks loader.
  *
- * @return ZIOR_Coupon_Reveal
+ * @return CouponReveal
  */
-function ZIOR_Coupon_Reveal_Initialize() {
-	return ZIOR_Coupon_Reveal::instance();
+function coupon_reveal_initialize() {
+	return CouponReveal::instance();
 }
 
-ZIOR_Coupon_Reveal_Initialize();
+coupon_reveal_initialize();

@@ -30,7 +30,7 @@ registerBlockVariation("core/query", {
     scope: [ "inserter" ],
     innerBlocks: [
         ["core/post-template", {},
-            [["core/post-featured-image"], ["core/post-title"], ["core/post-content"]],
+            [["core/post-featured-image"], ["core/post-title"]],
         ],
         ["core/query-pagination"],
         ["core/query-no-results"],

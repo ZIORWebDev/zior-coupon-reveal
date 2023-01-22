@@ -27,7 +27,7 @@ const EmptyPlaceholder = () => (
 			"Coupons Categories List",
 			"zior-couponreveal"
 		) }
-		className="zior-block-coupon-categories"
+		className="zior-block-coupon-taxonomies"
 	>
 		{ __(
 			"This block displays the coupon categories for your store. To use it you first need to create a coupon and assign it to a category.",
@@ -78,17 +78,6 @@ const CouponCategoriesBlock = ( { attributes, setAttributes, name } ) => {
 							"Show category images",
 							"zior-couponreveal"
 						) }
-						help={
-							hasImage
-								? __(
-										"Category images are visible.",
-										"zior-couponreveal"
-									)
-								: __(
-										"Category images are hidden.",
-										"zior-couponreveal"
-									)
-						}
 						checked={ hasImage }
 						onChange={ () =>
 							setAttributes( { hasImage: ! hasImage } )
@@ -112,7 +101,7 @@ const CouponCategoriesBlock = ( { attributes, setAttributes, name } ) => {
 	};
 
 	const blockProps = useBlockProps( {
-		className: "zior-block-coupon-categories",
+		className: "zior-block-coupon-taxonomies",
 	} );
 
 	return (

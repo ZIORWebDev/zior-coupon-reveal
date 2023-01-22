@@ -1,10 +1,12 @@
 <?php
+namespace ZIOR\CouponReveal\Blocks;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-class Zior_Coupon_Categories extends Zior_Abstract_Block {
+class CouponsStoresList extends AbstractBlock {
 
-	protected $block_name = 'coupon-categories';
+	protected $block_name = 'coupons-stores-list';
 
 	/**
 	 * Default attribute values, should match what's set in JS `registerBlockType`.
@@ -12,9 +14,11 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 	 * @var array
 	 */
 	protected $defaults = array(
-		'hasCount'       => true,
-		'hasImage'       => false,
-		'isHierarchical' => true,
+		'hasCount'       => false,
+		'hasImage'       => true,
+		'hasTitle'       => true,
+		'featuredOnly'   => false,
+		'isHierarchical' => false,
 	);
 
 	/**
@@ -28,9 +32,11 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 			array(
 				'align'          => $this->get_schema_align(),
 				'className'      => $this->get_schema_string(),
-				'hasCount'       => $this->get_schema_boolean( true ),
-				'hasImage'       => $this->get_schema_boolean( false ),
-				'isHierarchical' => $this->get_schema_boolean( true ),
+				'hasCount'       => $this->get_schema_boolean( false ),
+				'hasImage'       => $this->get_schema_boolean( true ),
+				'hasTitle'       => $this->get_schema_boolean( true ),
+				'featuredOnly'   => $this->get_schema_boolean( false ),
+				'isHierarchical' => $this->get_schema_boolean( false ),
 				'textColor'      => $this->get_schema_string(),
 				'fontSize'       => $this->get_schema_string(),
 				'lineHeight'     => $this->get_schema_string(),
@@ -86,7 +92,7 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 	 * @return string Rendered block type output.
 	 */
 	public function render( $attributes, $content, $block ) {
-		$uid        = uniqid( 'coupon-categories-' );
+		$uid        = uniqid( 'coupon-stores-' );
 		$categories = $this->get_categories( $attributes );
 
 		if ( empty( $categories ) ) {
@@ -104,7 +110,7 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 			}
 		}
 
-		$classes_and_styles = Style_Attributes_Utils::get_classes_and_styles_by_attributes(
+		$classes_and_styles = StyleAttributesUtils::get_classes_and_styles_by_attributes(
 			$attributes,
 			array( 'line_height', 'text_color', 'font_size' )
 		);
@@ -112,7 +118,7 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 		$classes = $this->get_container_classes( $attributes ) . ' ' . $classes_and_styles['classes'];
 		$styles  = $classes_and_styles['styles'];
 
-		$output  = '<div class="wp-block-coupon-categories ' . esc_attr( $classes ) . '" style="' . esc_attr( $styles ) . '">';
+		$output  = '<div class="wp-block-coupon-taxonomies ' . esc_attr( $classes ) . '" style="' . esc_attr( $styles ) . '">';
 		$output .= $this->renderList( $categories, $attributes, $uid );
 		$output .= '</div>';
 
@@ -127,7 +133,7 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 	 */
 	protected function get_container_classes( $attributes = array() ) {
 
-		$classes = array( 'zior-block-coupon-categories' );
+		$classes = array( 'zior-block-coupon-taxonomies' );
 
 		if ( isset( $attributes['align'] ) ) {
 			$classes[] = "align{$attributes['align']}";
@@ -150,13 +156,25 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 	 */
 	protected function get_categories( $attributes ) {
 		$hierarchical = wc_string_to_bool( $attributes['isHierarchical'] );
-		$categories   = get_terms(
-			[
-				'taxonomy'     => 'coupon-categories',
-				'pad_counts'   => true,
-				'hierarchical' => true,
-			]
-		);
+		$featuredOnly = wc_string_to_bool( $attributes['featuredOnly'] );
+
+		$args = [
+			'taxonomy'     => 'coupon-stores',
+			'pad_counts'   => true,
+			'hierarchical' => $hierarchical,
+		];
+
+		if ( $featuredOnly ) {
+			$args['meta_query'] = array(
+				array(
+				   'key'       => 'stores_featured',
+				   'value'     => true,
+				   'compare'   => '=',
+				)
+			);
+		}
+
+		$categories = get_terms( $args );
 
 		if ( ! is_array( $categories ) || empty( $categories ) ) {
 			return [];
@@ -228,12 +246,13 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 	 */
 	protected function renderList( $categories, $attributes, $uid, $depth = 0 ) {
 		$classes = [
-			'zior-block-coupon-categories-list',
-			'zior-block-coupon-categories-list--depth-' . absint( $depth ),
+			'zior-block-coupon-taxonomies-list',
+			'zior-block-coupon-taxonomies-list--depth-' . absint( $depth ),
 		];
 		if ( ! empty( $attributes['hasImage'] ) ) {
-			$classes[] = 'zior-block-coupon-categories-list--has-images';
+			$classes[] = 'zior-block-coupon-taxonomies-list--has-images';
 		}
+
 		$output = '<ul class="' . esc_attr( implode( ' ', $classes ) ) . '">' . $this->renderListItems( $categories, $attributes, $uid, $depth ) . '</ul>';
 
 		return $output;
@@ -251,26 +270,36 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 	protected function renderListItems( $categories, $attributes, $uid, $depth = 0 ) {
 		$output = '';
 
-		$link_color_class_and_style = Style_Attributes_Utils::get_link_color_class_and_style( $attributes );
+		$link_color_class_and_style = StyleAttributesUtils::get_link_color_class_and_style( $attributes );
 
 		$link_color_style = isset( $link_color_class_and_style['style'] ) ? $link_color_class_and_style['style'] : '';
 
 		foreach ( $categories as $category ) {
 			$output .= '
-				<li class="zior-block-coupon-categories-list-item">
-					<a style="' . esc_attr( $link_color_style ) . '" href="' . esc_attr( get_term_link( $category->term_id, 'coupon-categories' ) ) . '">'
+				<li class="zior-block-coupon-taxonomies-list-item">
+					<a style="' . esc_attr( $link_color_style ) . '" href="' . esc_attr( get_term_link( $category->term_id, 'coupon-stores' ) ) . '">'
 						. $this->get_image_html( $category, $attributes )
-						. '<span class="zior-block-coupon-categories-list-item__name">' . esc_html( $category->name ) . '</span>'
+						. $this->get_title_html( $category, $attributes )
 					. '</a>'
-					. $this->getCount( $category, $attributes )
-					. ( ! empty( $category->children ) ? $this->renderList( $category->children, $attributes, $uid, $depth + 1 ) : '' ) . '
-				</li>
-			';
+					. $this->getCount( $category, $attributes );
+
+			if ( ! empty( $attributes['isHierarchical'] ) ) {
+				$output .= ( ! empty( $category->children ) ? $this->renderList( $category->children, $attributes, $uid, $depth + 1 ) : '' );
+			}
+			
+			$output .= '</li>';
 		}
 
 		return preg_replace( '/\r|\n/', '', $output );
 	}
 
+	function get_title_html( $category, $attributes ) {
+		if ( empty( $attributes['hasTitle'] ) ) {
+			return '';
+		}
+
+		return '<span class="zior-block-coupon-taxonomies-list-item__name">' . esc_html( $category->name ) . '</span>';
+	}
 	/**
 	 * Returns the category image html
 	 *
@@ -287,10 +316,10 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 		$image_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
 
 		if ( ! $image_id ) {
-			return '<span class="zior-block-coupon-categories-list-item__image zior-block-coupon-categories-list-item__image--placeholder">' . wc_placeholder_img( 'thumbnail' ) . '</span>';
+			return '<span class="zior-block-coupon-taxonomies-list-item__image zior-block-coupon-taxonomies-list-item__image--placeholder">' . wc_placeholder_img( 'thumbnail' ) . '</span>';
 		}
 
-		return '<span class="zior-block-coupon-categories-list-item__image">' . wp_get_attachment_image( $image_id, 'thumbnail' ) . '</span>';
+		return '<span class="zior-block-coupon-taxonomies-list-item__image">' . wp_get_attachment_image( $image_id, 'thumbnail' ) . '</span>';
 	}
 
 	/**
@@ -303,10 +332,6 @@ class Zior_Coupon_Categories extends Zior_Abstract_Block {
 	protected function getCount( $category, $attributes ) {
 		if ( empty( $attributes['hasCount'] ) ) {
 			return '';
-		}
-
-		if ( $attributes['isDropdown'] ) {
-			return '(' . absint( $category->count ) . ')';
 		}
 
 		$screen_reader_text = sprintf(

@@ -36,7 +36,7 @@ const addFeaturedImageControlAttribute = ( settings, name ) => {
     return settings;
 };
 
-addFilter( "blocks.registerBlockType", "zior/coupon-featured-image", addFeaturedImageControlAttribute );
+addFilter( "blocks.registerBlockType", "zior/coupons-featured-image", addFeaturedImageControlAttribute );
 
 const { createHigherOrderComponent } = wp.compose;
 const { Fragment } = wp.element;
@@ -92,4 +92,4 @@ const withFeaturedImageControl = createHigherOrderComponent( ( BlockEdit ) => {
     };
 }, "withFeaturedImageControl" );
 
-addFilter( "editor.BlockEdit", "zior/coupon-featured-image", withFeaturedImageControl );
+addFilter( "editor.BlockEdit", "zior/coupons-featured-image", withFeaturedImageControl );

@@ -4,9 +4,9 @@ get_header();
 <div id="primary" class="content-area">
     <main id="main" class="site-main">
         <?php
-        $template_id    = get_option( 'zior_couponreveal_store_page_id' );
+        $template_id    = get_option( 'zior_couponreveal_coupons_archive_page_id' );
         $store_template = get_post( $template_id );
-        echo wp_kses_post( apply_filters( 'the_content', $store_template->post_content ) );
+        echo apply_filters( 'the_content', $store_template->post_content );
         ?>
     </main>
 </div>

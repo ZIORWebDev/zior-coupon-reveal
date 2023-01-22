@@ -1,8 +1,8 @@
 {
-  "name": "zior/coupon-categories",
+  "name": "zior/coupons-categories-list",
   "title": "Coupon Categories List",
   "category": "zior",
-  "description": "Show all coupon categories as a list or dropdown.",
+  "description": "Show all coupon categories as a list.",
   "keywords": [ "coupon" ],
   "supports": {
     "align": [ "wide", "full" ],
@@ -39,7 +39,7 @@
       "hasImage": false
     }
   },
-  "textdomain": "zio-coupons-block",
+  "textdomain": "zior-couponsreveal",
   "apiVersion": 2,
   "$schema": "https://schemas.wp.org/trunk/block.json"
 }

@@ -1,5 +1,5 @@
 <?php
-function zior_coupon_archive_templates( $template ) {
+function zior_couponreveal_archive_templates( $template ) {
 	if ( is_tax( 'coupon-stores' )  ) {
 		$template = locate_template( array( 'taxonomy-coupon-stores.php' ) );
 		if ( ! $template ) {
@@ -14,6 +14,13 @@ function zior_coupon_archive_templates( $template ) {
 		}
 	}
 
+	if ( is_post_type_archive( 'coupons' )  ) {
+		$template = locate_template( array( 'archive-coupons.php' ) );
+		if ( ! $template ) {
+			$template = ZR_COUPON_PLUGIN_DIR . 'templates/archive-coupons.php';
+		}
+	}
+
 	return $template;
 }
-add_filter( 'template_include', 'zior_coupon_archive_templates', 99 );
+add_filter( 'template_include', 'zior_couponreveal_archive_templates', 99 );

@@ -1,38 +1,12 @@
 <?php
+namespace ZIOR\CouponReveal\Blocks;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Helper methods for running the blocks.
- */
-class ZIOR_Coupon_Blocks_Loader {
-	public function init() {
-		if ( ! function_exists( 'register_block_type' ) ) {
-			return;
-		}
-		
-		add_action( 'init', [ $this, 'register' ] );
+class ImageAddon {
+	public function __construct() {
 		add_filter( 'render_block_data', [ $this, 'pre_render_block' ], 10, 3 );
-	}
-
-	/**
-	 * Register server side blocks for the editor.
-	 */
-	public function register() {
-		spl_autoload_register( function ( $class ) {
-			$allowed_class = [
-				'zior_abstract_block',
-				'style_attributes_utils',
-				'zior_coupon_categories',
-			];
-		
-			if ( ! in_array( strtolower( $class ), $allowed_class ) ) {
-				return;
-			}
-			include strtolower( $class ) . '.php';
-		});
-
-		( new Zior_Coupon_Categories() )->initialize();
 	}
 
 	public function has_managefeatured_enabled( $parsed_block ) {
@@ -64,5 +38,3 @@ class ZIOR_Coupon_Blocks_Loader {
 		return $parsed_block;
 	}
 }
-
-(new ZIOR_Coupon_Blocks_Loader)->init();

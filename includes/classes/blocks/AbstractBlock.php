@@ -1,10 +1,11 @@
 <?php
+namespace ZIOR\CouponReveal\Blocks;
 use WP_Block;
 
 /**
  * Abstract_Block class.
  */
-abstract class Zior_Abstract_Block {
+abstract class AbstractBlock {
 
 	/**
 	 * Block namespace.
@@ -103,9 +104,8 @@ abstract class Zior_Abstract_Block {
 	 * @return string|boolean False if metadata file is not found for the block.
 	 */
 	public function get_block_metadata_path( $block_name ) {
-		$metadata_file = ZR_COUPON_PLUGIN_DIR . 'build/blocks/' . $block_name . '/block.json';
+		$metadata_file = ZR_COUPON_PLUGIN_DIR . 'includes/classes/blocks/' . $block_name . '/block.json';
 
-		
 		if ( ! file_exists( $metadata_file ) ) {
 			return false;
 		}

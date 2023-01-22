@@ -1,8 +1,10 @@
 <?php
+namespace ZIOR\CouponReveal;
+
 /**
  * Class for registering a new settings page.
  */
-class ZIOR_CouponReveal_Options {
+class Settings {
 
 	/**
 	 * Constructor.
@@ -41,6 +43,15 @@ class ZIOR_CouponReveal_Options {
 					'title'    => __( 'Category Archive Template', 'zior-couponreveal' ),
 					'desc'     => sprintf( __( 'Block page template for coupon categories archive.' ) ),
 					'id'       => 'zior_couponreveal_category_page_id',
+					'type'     => 'single_select_page',
+					'post_type' => 'coupon-templates',
+					'class'    => 'wc-enhanced-select-nostd',
+					'css'      => 'min-width:300px;',
+				),
+				array(
+					'title'    => __( 'Coupon Post Type Archive Template', 'zior-couponreveal' ),
+					'desc'     => sprintf( __( 'Block page template for coupons post type archive.' ) ),
+					'id'       => 'zior_couponreveal_coupons_archive_page_id',
 					'type'     => 'single_select_page',
 					'post_type' => 'coupon-templates',
 					'class'    => 'wc-enhanced-select-nostd',
@@ -191,85 +202,72 @@ class ZIOR_CouponReveal_Options {
 		return true;
 	}
 
-	public static function render_common_fields( $option ) {
-		$html = '
+	public static function render_common_fields( $option ) { ?>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="'. esc_attr( $option['id'] ) .'">'. esc_html( $option['title'] ) .'</label>
+				<label for="<?php esc_attr( $option['id'] ); ?>"><?php echo esc_attr( $option['title'] ); ?></label>
 			</th>
-			<td class="forminp forminp-'. esc_attr( $type ) . '">
+			<td class="forminp forminp-<?php esc_attr( $type ); ?>">
 				<input
-					name="'. esc_attr( $option['field_name'] ) .'"
-					id="'. esc_attr( $option['id'] ) .'"
-					type="'. esc_attr( $option['type'] ) .'"
-					style="'. esc_attr( $option['css'] ) .'"
-					value="'. esc_attr( $option['value'] ) .'"
-					class="'. esc_attr( $option['class'] ) .'"
-					placeholder="'. esc_attr( $option['placeholder'] ) .'"
-					'. $option['custom_attributes']. ' />
-					'. $option['description'] .'
+					name="<?php echo esc_attr( $option['field_name'] ); ?>"
+					id="<?php echo esc_attr( $option['id'] ); ?>" 
+					type="<?php echo esc_attr( $option['type'] ); ?>" 
+					style="<?php echo esc_attr( $option['css'] ); ?>" 
+					value="<?php echo esc_attr( $option['value'] ); ?>" 
+					class="<?php echo esc_attr( $option['class'] ); ?>" 
+					placeholder="<?php echo esc_attr( $option['placeholder'] ); ?>"> 
+					<p><?php echo esc_html( $option['description'] ); ?></p>
 			</td>
-		</tr>';
-
-		return $html;
+		</tr> <?php 
 	}
 
-	public static function render_textarea_fields( $option ) {
-		$html = '
+	public static function render_textarea_fields( $option ) { ?>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="'. esc_attr( $option['id'] ) .'">'. esc_html( $option['title'] ) .'</label>
+				<label for="<?php echo esc_attr( $option['id'] ); ?>"><?php echo esc_html( $option['title'] ); ?></label>
 			</th>
-			<td class="forminp forminp-'. esc_attr( $type ) . '">
-				'. $option['description'] .'
+			<td class="forminp forminp-<?php echo esc_attr( $type ); ?>">
+				<p><?php esc_html( $option['description'] ); ?>
 				<textarea
-					name="'. esc_attr( $option['field_name'] ) .'"
-					id="'. esc_attr( $option['id'] ) .'"
-					type="'. esc_attr( $option['type'] ) .'"
-					style="'. esc_attr( $option['css'] ) .'"
-					class="'. esc_attr( $option['class'] ) .'"
-					placeholder="'. esc_attr( $option['placeholder'] ) .'"
-					'. $option['custom_attributes']. '>'. esc_attr( $option['value'] ) .'</textarea>
+					name="<?php echo esc_attr( $option['field_name'] ); ?>" 
+					id="<?php echo esc_attr( $option['id'] ); ?>" 
+					type="<?php echo esc_attr( $option['type'] ); ?>" 
+					style="<?php echo esc_attr( $option['css'] ); ?>" 
+					class="<?php echo esc_attr( $option['class'] ); ?>" 
+					placeholder="<?php echo esc_attr( $option['placeholder'] ); ?>">
+					<?php echo esc_attr( $option['value'] ); ?></textarea>
 			</td>
-		</tr>';
-
-		return $html;
+		</tr> <?php
 	}
 
-	public static function render_select_fields( $option ) {
-		$html = '
+	public static function render_select_fields( $option ) {  ?>
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="'. esc_attr( $option['id'] ) .'">'. esc_html( $option['title'] ) .'</label>
+				<label for="<?php echo esc_attr( $option['id'] ); ?>"><?php echo esc_html( $option['title'] ); ?></label>
 			</th>
-			<td class="forminp forminp-'. esc_attr( $type ) . '">
+			<td class="forminp forminp-<?php echo esc_attr( $type ); ?>">
 				<select
-					name="'. esc_attr( $value['field_name'] ) . ( 'multiselect' === $value['type'] ) ? '[]' : '' . '"
-					id="'. esc_attr( $value['id'] ) .'"
-					style="'. esc_attr( $value['css'] ). '>"
-					class="'. esc_attr( $value['class'] ) .'"
-					'. implode( ' ', $custom_attributes ) .'
-					'. ( 'multiselect' === $value['type'] ? 'multiple="multiple"' : '' ) .'>';
-
-					foreach ( $value['options'] as $key => $val ) {
-						$html .= '<option value="'. esc_attr( $key ) .'"';
-
+					name="<?php echo esc_attr( $value['field_name'] ) . ( 'multiselect' === $value['type'] ) ? '[]' : ''; ?>" 
+					id="<?php echo esc_attr( $value['id'] ); ?>" 
+					style="<?php echo esc_attr( $value['css'] ); ?>" 
+					class="<?php echo esc_attr( $value['class'] ); ?>" 
+					<?php echo esc_html( ( 'multiselect' === $value['type'] ) ? 'multiple="multiple"' : '' ); ?>>
+					<?php 
+					foreach ( $value['options'] as $key => $val ) { ?>
+							<option value="<?php echo esc_attr( $key ); ?>" 
+							<?php 
 							if ( is_array( $option_value ) ) {
 								selected( in_array( (string) $key, $option_value, true ), true );
 							} else {
 								selected( $option_value, (string) $key );
-							}
-						$html .= '>'. esc_html( $val ) . '</option>';
-					}
-			$html .= '</select>
+							} ?> ><?php echo esc_html( $val ); ?></option>
+					<?php } ?>
+				</select>
 			</td>
-		</tr>';
-
-		return $html;
+		</tr> <?php
 	}
 
 	public static function render_checkbox_fields( $option ) {
-		$html = '';
 		$visibility_class = array();
 
 		if ( ! isset( $value['hide_if_checked'] ) ) {
@@ -289,40 +287,36 @@ class ZIOR_CouponReveal_Options {
 		}
 
 		if ( ! isset( $value['checkboxgroup'] ) || 'start' === $value['checkboxgroup'] ) {
-			$html .= '<tr valign="top" class="'. esc_attr( implode( ' ', $visibility_class ) ) .'">
-				<th scope="row" class="titledesc">'. esc_html( $value['title'] ) .'</th>
+			?>
+			<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visibility_class ) ); ?>">
+				<th scope="row" class="titledesc"><?php echo esc_html( $value['title'] ); ?></th>
 				<td class="forminp forminp-checkbox">
-				<fieldset>';
-		} else {
-			$html .= '<fieldset class="'. esc_attr( implode( ' ', $visibility_class ) ). '">';
-		}
+				<fieldset>
+		<?php } else { ?>
+			<fieldset class="<?php echo esc_attr( implode( ' ', $visibility_class ) ); ?>">
+		<?php }
 	
-		if ( ! empty( $value['title'] ) ) {
-			$html .= '<legend class="screen-reader-text"><span>'. esc_html( $value['title'] ) .'</span></legend>';
-		}
-
-		$html .= '<label for="'. esc_attr( $value['id'] ) .'">
+		if ( ! empty( $value['title'] ) ) { ?>
+			<legend class="screen-reader-text"><span><?php echo esc_html( $value['title'] ); ?></span></legend>
+		<?php } ?>
+		
+		<label for="<?php echo esc_attr( $value['id'] ); ?>">
 			<input
-				name="'. esc_attr( $value['field_name'] ) .'"
-				id="'. esc_attr( $value['id'] ) .'"
-				type="checkbox"
-				class="'. esc_attr( isset( $value['class'] ) ? $value['class'] : '' ) .'"
-				value="1" '. 
-				disabled( $value['disabled'] ?? false ) .'
-				'. checked( $option_value, 'yes' ) .'
-				'. implode( ' ', $custom_attributes ) .'
-			/>'. $description .'
+				name="<?php echo esc_attr( $value['field_name'] ); ?>" 
+				id="<?php echo esc_attr( $value['id'] ); ?>" 
+				type="checkbox" 
+				class="<?php echo esc_attr( isset( $value['class'] ) ? $value['class'] : '' ); ?>" 
+				value="1" 
+				<?php disabled( $value['disabled'] ?? false ); ?>
+				<?php checked( $option_value, 'yes' ); ?> />
 			</label>';
-
-			if ( ! isset( $value['checkboxgroup'] ) || 'end' === $value['checkboxgroup'] ) {
-				$html .= '</fieldset>
-						</td>
-					</tr>';
-			} else {
-				$html .= '</fieldset>';
-			}
-
-		return $html;
+			<?php if ( ! isset( $value['checkboxgroup'] ) || 'end' === $value['checkboxgroup'] ) { ?>
+				</fieldset>
+				</td>
+				</tr>
+			<?php } else { ?>
+				</fieldset>
+			<?php }
 	}
 
 	public static function render_singlepage_select_fields( $option ) {
@@ -336,23 +330,22 @@ class ZIOR_CouponReveal_Options {
 			'echo'             => false,
 			'selected'         => absint( $option['value'] ),
 			'post_status'      => 'publish,private,draft',
-			'post_type'      => $option['post_type'],
+			'post_type'        => $option['post_type'],
 		);
 		
 		if ( isset( $option['args'] ) ) {
 			$args = wp_parse_args( $option['args'], $args );
 		}
-
-		$html = '<tr valign="top" class="single_select_page">
+		?>
+		<tr valign="top" class="single_select_page">
 			<th scope="row" class="titledesc">
-				<label>'. esc_html( $option['title'] ) .'</label>
+				<label><?php echo esc_html( $option['title'] ); ?></label>
 			</th>
 			<td class="forminp">
-				'. str_replace( ' id=', " data-placeholder='" . esc_attr__( 'Select a page&hellip;', 'ziorcouponreveal' ) . "' style='" . $option['css'] . "' class='" . $option['class'] . "' id=", wp_dropdown_pages( $args ) ) . '<p>' . $option['desc'] .'</p>
+				<?php echo str_replace( ' id=', " data-placeholder='" . esc_attr__( 'Select a page&hellip;', 'ziorcouponreveal' ) . "' style='" . esc_attr( $option['css'] ) . "' class='" . esc_attr( $option['class'] ) . "' id=", wp_dropdown_pages( $args ) ); ?>
+				<p><?php esc_html( $option['desc'] ); ?></p>
 			</td>
-		</tr>';
-
-		return $html;
+		</tr> <?php
 	}
 
 	/**
@@ -363,7 +356,6 @@ class ZIOR_CouponReveal_Options {
 	 * @param array[] $options Opens array to output.
 	 */
 	public static function output_fields( $options ) {
-		$html = '';
 		foreach ( $options as $value ) {
 			if ( ! isset( $value['type'] ) ) {
 				continue;
@@ -371,15 +363,6 @@ class ZIOR_CouponReveal_Options {
 
 			if ( ! isset( $value['value'] ) ) {
 				$value['value'] = self::get_option( $value['id'], $value['default'] ) ?? '';
-			}
-
-			// Custom attribute handling.
-			$custom_attributes = array();
-
-			if ( ! empty( $value['custom_attributes'] ) && is_array( $value['custom_attributes'] ) ) {
-				foreach ( $value['custom_attributes'] as $attribute => $attribute_value ) {
-					$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
-				}
 			}
 
 			// Switch based on type.
@@ -396,27 +379,27 @@ class ZIOR_CouponReveal_Options {
 				case 'email':
 				case 'url':
 				case 'tel':
-					$html .= self::render_common_fields( $value );
+					self::render_common_fields( $value );
 					break;
 
 				// Textarea.
 				case 'textarea':
-					$html .= self::render_textarea_fields( $value );
+					self::render_textarea_fields( $value );
 					break;
 
 				// Select boxes.
 				case 'select':
 				case 'multiselect':
-					$html .= self::render_select_fields( $value );
+					self::render_select_fields( $value );
 					break;
 
 				// Checkbox input.
 				case 'checkbox':
-					$html .= self::render_checkbox_fields( $value );
+					self::render_checkbox_fields( $value );
 					break;
 				// Single page selects.
 				case 'single_select_page':
-					$html .= self::render_singlepage_select_fields( $value );
+					self::render_singlepage_select_fields( $value );
 					break;
 
 				// Default: run an action.
@@ -425,31 +408,22 @@ class ZIOR_CouponReveal_Options {
 					break;
 			}
 		}
-
-		return $html;
 	}
 
-	public function render_fields() {
-		$fields = $this->get_settings_default();
-		$html = $this->output_fields( $fields );
-		return $html;
-	}
 	/**
 	 * Settings page display callback.
 	 */
 	public function couponreveal_settings() {
-		$html = '<div class="wrap" id="couponreveal_settings">
-				<h1>Settings</h1>
-				<form method="post">
-					<input type="hidden" name="action" value="save_zior_couponreveal_settings" />
-					<table class="form-table">
-					'. $this->render_fields() .'
-					</table>
-					' . get_submit_button( esc_html__('Save Changes', 'zior-couponreveal') ) . '
-				</form>
-			</div>';
-		echo $html;
+		$fields = $this->get_settings_default(); ?>
+		<div class="wrap" id="couponreveal_settings">
+			<h1>Settings</h1>
+			<form method="post">
+				<input type="hidden" name="action" value="save_zior_couponreveal_settings" />
+				<table class="form-table">
+				<?php $this->output_fields( $fields ); ?>
+				</table>
+				<?php submit_button( esc_html__( 'Save Changes', 'zior-couponreveal' ) ); ?>
+			</form>
+		</div> <?php
 	}
 }
-
-new ZIOR_CouponReveal_Options;
