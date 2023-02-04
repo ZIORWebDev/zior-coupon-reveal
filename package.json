@@ -11,7 +11,7 @@
 	"license": "UNLICENSED",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ziorweb-dev/zior-elementor-addon.git"
+		"url": "https://github.com/ZIORWebDev/zior-elementor-addon.git"
 	},
 	"scripts": {
 		"build": "wp-scripts build",
