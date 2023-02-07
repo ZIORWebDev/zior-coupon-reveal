@@ -1,0 +1,31 @@
+{
+    "repositories": [{
+        "type": "composer",
+        "url": "https://wpackagist.org"
+    }],
+    "type": "package",
+    "package": {
+        "name": "wpackagist-plugin/advanced-custom-fields",
+        "version": "6.0.6",
+        "type": "library",
+        "dist": {
+            "type": "zip",
+            "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.{%VERSION}.zip"
+        }
+    },
+    "require": {
+        "wpackagist-plugin/advanced-custom-fields": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "ffraenz/private-composer-installer": true,
+            "composer/installers": true
+        }
+    },
+	"extra" : {
+		"wordpress-install-dir" : "vendor/acf",
+		"installer-paths" : {
+			"vendor/acf" : ["type:wordpress-plugin"]
+		}
+	}
+}

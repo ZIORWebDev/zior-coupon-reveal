@@ -1,0 +1,53 @@
+{
+  "name": "zior/coupons-stores-list",
+  "title": "Coupon Stores List",
+  "category": "zior",
+  "description": "Show all coupon stores as a list or dropdown.",
+  "keywords": [ "coupon" ],
+  "supports": {
+    "align": [ "wide", "full" ],
+    "html": false,
+    "color": {
+      "background": false,
+      "link": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true
+    }
+  },
+  "attributes": {
+    "align": {
+      "type": "string"
+    },
+    "hasCount": {
+      "type": "boolean",
+      "default": false
+    },
+    "hasImage": {
+      "type": "boolean",
+      "default": true
+    },
+    "isHierarchical": {
+      "type": "boolean",
+      "default": false
+    },
+    "hasTitle": {
+      "type": "boolean",
+      "default": true
+    },
+    "featuredOnly": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "example": {
+    "attributes": {
+      "hasCount": true,
+      "hasImage": false
+    }
+  },
+  "textdomain": "zior-couponreveal",
+  "apiVersion": 2,
+  "$schema": "https://schemas.wp.org/trunk/block.json"
+}

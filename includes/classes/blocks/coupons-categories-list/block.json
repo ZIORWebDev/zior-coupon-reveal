@@ -1,0 +1,45 @@
+{
+  "name": "zior/coupons-categories-list",
+  "title": "Coupon Categories List",
+  "category": "zior",
+  "description": "Show all coupon categories as a list.",
+  "keywords": [ "coupon" ],
+  "supports": {
+    "align": [ "wide", "full" ],
+    "html": false,
+    "color": {
+      "background": false,
+      "link": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true
+    }
+  },
+  "attributes": {
+    "align": {
+      "type": "string"
+    },
+    "hasCount": {
+      "type": "boolean",
+      "default": true
+    },
+    "hasImage": {
+      "type": "boolean",
+      "default": false
+    },
+    "isHierarchical": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "example": {
+    "attributes": {
+      "hasCount": true,
+      "hasImage": false
+    }
+  },
+  "textdomain": "zior-couponsreveal",
+  "apiVersion": 2,
+  "$schema": "https://schemas.wp.org/trunk/block.json"
+}
